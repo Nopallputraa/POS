@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('m_user', function (Blueprint $table) {
-                $table->id('user_id');
-                $table->unsignedBigInteger('level_id')->index(); // indexing untuk Foreign Key
-                $table->string('username', 20)->unique(); // unique untuk memastikan tidak ada username yang sama
-                $table->string('nama', 100);
-                $table->string('password');
-                $table->timestamps();
+        Schema::create('m_user', function (Blueprint $table) {
+            $table->id('user_id');
+            $table->unsignedBigInteger('level_id')->index(); // indexing untuk ForeignKey
+            $table->string('username', 20)->unique(); // unique untuk memastikan tidak ada username yang sama
+            $table->string('nama', 100);
+            $table->string('password', 255);
+            $table->timestamps();
 
-                $table->foreign('level_id')->references('level_id')->on('m_level');
+            // Mendefinisikan Foreign key pada kolom level_id mengacu pada kolom level_id di table m_level
+            $table->foreign('level_id')->references('level_id')->on('m_level');
         });
     }
 
@@ -28,8 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('m_user', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('m_user');
     }
 };
